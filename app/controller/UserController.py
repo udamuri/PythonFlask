@@ -1,7 +1,6 @@
 from app.model.user import Users
-from app import response, app
+from app import response, app, db
 from flask import request
-from app import db
 
 def index():
     try:
@@ -75,11 +74,21 @@ def transform(users):
         array.append(singleTransform(i))
     return array
 
-def singleTransform(users):
+def singleTransform(users, withTodo=True):
     data = {
         'id': users.id,
         'name': users.name,
-        'email': users.email
+        'email': users.email,
     }
+
+    if withTodo:
+        todos = []
+        for i in users.todos:
+            todos.append({
+                'id': i.id,
+                'todo': i.todo,
+                'description': i.description,
+            })
+        data['todos'] = todos
 
     return data

@@ -2,13 +2,17 @@ from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Users(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     name = db.Column(db.String(230), nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    todos = db.relationship("Todos", lazy='select', backref=db.backref('todos', lazy='joined'))
+    #todos = db.relationship("Todos", back_populates="users")
 
     def __repr__(self):
         return '<User {}>'.format(self.name)

@@ -1,4 +1,5 @@
 FLASK_APP=main.py
+FLASK_ENV=development
 DB_HOST=127.0.0.1
 DB_DATABASE=flask
 DB_USERNAME=root
